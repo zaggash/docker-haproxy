@@ -1,0 +1,5 @@
+#!/bin/bash
+CONFIG="/config/haproxy.cfg"
+
+/usr/sbin/haproxy -f $CONFIG -c
+/usr/sbin/haproxy -q -f $CONFIG -sf $(pidof haproxy)

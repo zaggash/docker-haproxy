@@ -1,0 +1,90 @@
+global
+    log 127.0.0.1 local0
+    #debug
+    chroot /var/lib/haproxy
+    user abc
+    group abc
+
+    # Default SSL material locations
+    ca-base /config/ssl
+    crt-base /config/ssl
+
+    # Default ciphers to use on SSL-enabled listening sockets.
+    ssl-default-bind-ciphers EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+    ssl-default-bind-options no-sslv3
+    tune.ssl.default-dh-param 2048
+    
+    spread-checks 4
+    tune.maxrewrite 1024
+
+defaults
+    log	    global
+    mode    http
+    balance roundrobin
+
+    option  dontlognull
+    option  dontlog-normal
+    option  forwardfor
+    option  redispatch
+    
+    maxconn 5000
+    timeout connect 5s
+    timeout client  20s
+    timeout server  20s
+    timeout queue   30s
+    timeout http-request 5s
+    timeout http-keep-alive 15s
+    
+    #errorfile 400 /etc/haproxy/errors/400.http
+    #errorfile 403 /etc/haproxy/errors/403.http
+    #errorfile 408 /etc/haproxy/errors/408.http
+    #errorfile 500 /etc/haproxy/errors/500.http
+    #errorfile 502 /etc/haproxy/errors/502.http
+    #errorfile 503 /etc/haproxy/errors/503.http
+    #errorfile 504 /etc/haproxy/errors/504.http
+    
+#################
+## Frontends
+#################
+frontend http-in
+    bind *:80
+    reqadd X-Forwarded-Proto:\ http
+    #redirect scheme https if !{ ssl_fc } ## Redirect HTTP to HTTPS
+    default_backend HAProxy-Statistics
+    
+    acl letsencrypt-request path_beg -i /.well-known/acme-challenge/
+    #redirect scheme https unless letsencrypt-request ## Redirect to HTTPS if not letsencrypt request
+    use_backend letsencrypt if letsencrypt-request
+
+frontend https-in
+    bind *:443 ssl crt default/cert.pem
+    reqadd X-Forwarded-Proto:\ https
+    default_backend HAProxy-Statistics
+    
+##################
+## Backends
+##################
+backend letsencrypt
+    mode http
+    server local_letsencrypt 127.0.0.1:9999
+
+
+##################
+## Stats Haproxy
+##################
+userlist UsersFor_HAProxyStatistics
+  group admin users admin
+  user admin insecure-password adminpasswd
+  user stats insecure-password statspasswd
+ 
+backend HAProxy-Statistics
+  mode http
+  stats enable
+  stats uri /haproxy_stats
+  stats refresh 60s
+  stats show-node
+  stats show-legends
+  acl AuthOkay_ReadOnly http_auth(UsersFor_HAProxyStatistics)
+  acl AuthOkay_Admin http_auth_group(UsersFor_HAProxyStatistics) admin
+  stats http-request auth realm HAProxy-Statistics unless AuthOkay_ReadOnly
+  stats admin if AuthOkay_Admin
