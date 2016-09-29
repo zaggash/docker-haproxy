@@ -6,7 +6,7 @@ while s6-setuidgid abc inotifywait -q -e create,delete,modify,attrib $CONFIG /et
 do
 	if [ ! -z $(pidof haproxy) ]; then
                 echo "[INFO] Config changed... Restarting HAProxy PID:$(pidof haproxy) ..."
-                sv restart haproxy
+                s6-svc -h /var/run/s6/services/haproxy || exit 1
                 echo "[INFO] Restarted, new PID:$(pidof haproxy)."
         else
                 echo "[ERROR] Haproxy is not running, exited."
