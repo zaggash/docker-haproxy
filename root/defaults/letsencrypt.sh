@@ -32,9 +32,9 @@ certificate_needs_update() {
 combine_cert() {
 # Output the PEM with key and cert inside.
         [ "$#" -ne 2 ] && exit 1
-        [ ! -f "$cert_folder/live/$main_cert_name/fullchain.pem" ] && exit 1
         cert_folder="$1"
         main_cert_name="$2"
+        [ ! -f "$cert_folder/live/$main_cert_name/fullchain.pem" ] && exit 1
         mkdir -p "$cert_folder/$main_cert_name/"
         cat "$cert_folder/live/$main_cert_name/privkey.pem" "$cert_folder/live/$main_cert_name/fullchain.pem" > "$cert_folder/$main_cert_name/$main_cert_name.pem"
 }
@@ -88,7 +88,7 @@ do
                 create_cert "$DNS_LIST" "$EMAIL" "$LE_PORT"
                 combine_cert "$LE_FOLDER" "$MAIN_CERT_NAME"
                 echo "[INFO] CertBot initial process finished for domains $DNS_LIST"
-                echo "[INFO] Setup your SSL frontend with $LE_FOLDER/$ROOT_DOMAIN/$ROOT_DOMAIN.pem !"
+                echo "[INFO] Setup your SSL frontend with $LE_FOLDER/$MAIN_CERT_NAME/$MAIN_CERT_NAME.pem !"
                 echo "********************************************************************"
         else
                 DAYS=$(certificate_needs_update "$LE_FOLDER" "$MAIN_CERT_NAME" "$MAX_DAYS_TO_EXPIRATION")
@@ -97,7 +97,7 @@ do
                         echo "[WARN] The certificate for $DNS_LIST is about to expire soon. Starting Certbot renewal script..."
                         create_cert "$DNS_LIST" "$EMAIL" "$LE_PORT" || exit 1
                         combine_cert "$LE_FOLDER" "$MAIN_CERT_NAME"
-                        echo "[INFO] Certbot renew finished for $ROOT_DOMAIN certificates."
+                        echo "[INFO] Certbot renew finished for $MAIN_CERT_NAME certificates."
                         [[ $(pidof haproxy) ]] &&  s6-svc -h /var/run/s6/services/haproxy/ || s6-svc -u /var/run/s6/services/haproxy/
                 else
                         echo "The certificate for $DNS_LIST is up to date, no need for renewal ($DAYS days left)."
