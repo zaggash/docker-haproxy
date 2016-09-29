@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+[[ -z "$DOMAINS" ]] && { echo "[WARN] You have not set a DOMAINS environmental variable."; BYPASS=true; }
+[[ -z "$EMAIL" ]] && { echo "[WARN] You have not set an EMAIL environmental variable."; BYPASS=true; }
+
+if [[ $BYPASS ]]; then
+  echo "[WARN] Skipping Certbot/Let's Encrypt..."
+else
+  #Copy and exec
+  [[ ! -x /app/letsencrypt.sh ]] && { cp /defaults/letsencrypt.sh /app/letsencrypt.sh && chmod +x /app/letsencrypt.sh; }
+  #[[ ! -f /etc/cron.d/letsencrypt ]] && cp /defaults/letsencrypt.cron /etc/cron.d/root
+  
+  exec /app/letsencrypt.sh
+
+fi

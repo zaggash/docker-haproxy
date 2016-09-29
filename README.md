@@ -1,7 +1,45 @@
-![http://linuxserver.io](http://www.linuxserver.io/wp-content/uploads/2015/06/linuxserver_medium.png)
+Based on linuxserver.io baseimage but NOT SUPPORTED by them.
 
-## This is a Container in active development, and should not be used by the general public.
-If you are curious about the current progress or want to comment\contribute to this work, feel free to join us at our irc channel:
-[IRC](https://www.linuxserver.io/index.php/irc/) on freenode at `#linuxserver.io`.
+# zaggash/docker-haproxy
+[![](https://images.microbadger.com/badges/image/zaggash/docker-haproxy.svg)](https://microbadger.com/images/zaggash/docker-haproxy "Get your own image badge on microbadger.com")
 
-or visit our website at [https://linuxserver.io](https://www.linuxserver.io/)
+[hub]: https://hub.docker.com/r/zaggash/docker-haproxy/
+
+The Reliable, High Performance TCP/HTTP Load Balancer. [haproxy](http://www.haproxy.org/)
+LetsEncrypt support.
+
+[![haproxy](https://cdn.haproxy.com/static/img/slider1small.png)]
+
+## Usage
+
+```
+docker create --name=haproxy \
+-v <path to data>:/config \
+-e TZ \
+-e PGID=<gid> -e PUID=<uid> \
+-p 19999:19999 \
+zaggash/docker-haproxy
+```
+
+**Parameters**
+
+* `-p 19999` - the port(s)
+* `-v /config` - where it should store config files and logs
+* `-e PGID` for GroupID - see below for explanation
+* `-e PUID` for UserID - see below for explanation
+* `-e TZ` for timezone information
+
+It is based on alpine linux with s6 overlay, for shell access whilst the container is running do `docker exec -it haproxy /bin/bash`.
+
+### User / Group Identifiers
+
+Sometimes when using data volumes (`-v` flags) permissions issues can arise between the host OS and the container. We avoid this issue by allowing you to specify the user `PUID` and group `PGID`. Ensure the data volume directory on the host is owned by the same user you specify and it will "just work" ™.
+
+## Setting up the application 
+
+
+
+
+## Info
+
+* To monitor the logs of the container in realtime `docker logs -f haproxy`.
