@@ -7,7 +7,7 @@ Based on linuxserver.io baseimage but NOT SUPPORTED by them.
 The Reliable, High Performance TCP/HTTP Load Balancer. [haproxy](http://www.haproxy.org/)
 This container have LetsEncrypt support for multiple domain.
 
-[![haproxy](https://cdn.haproxy.com/static/img/slider1small.png)
+[![haproxy](https://cdn.haproxy.com/static/img/slider1small.png)]
 
 ## Usage
 
