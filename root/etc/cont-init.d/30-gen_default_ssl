@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv bash
+SSL_DEFAULT_FOLDER="/config/ssl/default"
+SUBJECT="/C=US/ST=CA/L=Carlsbad/O=Linuxserver.io/OU=LSIO Server/CN=*"
+if [[ -f "$SSL_DEFAULT_FOLDER/cert.key" && -f "$SSL_DEFAULT_FOLDER/cert.crt" && -f "$SSL_DEFAULT_FOLDER/cert.pem" ]]; then
+  echo "[INFO] Keys can be found in $SSL_DEFAULT_FOLDER/"
+else
+  echo "[INFO] Generating self-signed keys in $SSL_DEFAULT_FOLDER, you can set your own in /config/ssl or use LetsEncrypt"
+  s6-setuidgid abc openssl req -new -x509 -days 3650 -nodes -out "$SSL_DEFAULT_FOLDER/cert.crt" -keyout "$SSL_DEFAULT_FOLDER/cert.key" -subj "$SUBJECT"
+  s6-setuidgid abc cat "$SSL_DEFAULT_FOLDER/cert.crt" "$SSL_DEFAULT_FOLDER/cert.key" > "$SSL_DEFAULT_FOLDER/cert.pem"
+fi

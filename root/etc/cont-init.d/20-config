@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+HAPROXY_CONF="haproxy.cfg"
+DEFAULT_SSL_FOLDER="/config/ssl/default"
+
+# Copy default haproxy config
+[ ! -f /config/haproxy.cfg ] && cp /defaults/$HAPROXY_CONF /config/haproxy.cfg ||  echo "[WARN] Config file already exists."
+
+# Manage LetsEncrypt folder
+mkdir -p $DEFAULT_SSL_FOLDER
+if [ ! -d /config/ssl/letsencrypt ]; then mkdir -p /etc/letsencrypt && mv /etc/letsencrypt /config/ssl/; else rm -Rf /etc/letsencrypt; fi
+ln -s "/config/ssl/letsencrypt" "/etc/letsencrypt"
+
+# Fix permissions
+chown -R abc.abc /config

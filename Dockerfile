@@ -1,30 +1,25 @@
-FROM linuxserver/baseimage
-MAINTAINER zaggash <zaggash@users.noreply.github.com>
-ENV APTLIST="libxslt1-dev libffi-dev libffi6 libpython-dev libssl-dev python2.7 python-virtualenv python-urllib3 python-requests python-cherrypy python-lxml python-pip python2.7-dev bc inotify-tools haproxy "
+FROM lsiobase/alpine
+MAINTAINER zaggash
 
-#Applying stuff
-RUN     add-apt-repository ppa:fkrull/deadsnakes-python2.7 && \
-	add-apt-repository ppa:vbernat/haproxy-1.6 && \
-	apt-get update -q && \
-	apt-get install -yq $APTLIST && \
-	
-	#install pip packages
-	pip install pip-review && \
-	pip install -U pip pyopenssl ndg-httpsclient virtualenv && \
-	
-	#cleaunp
-	apt-get clean && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
-	
-#Update any packages now
-RUN pip-review --local --auto 
+ENV DOMAINS=""
+ENV EMAIL=""
 
-#Adding Custom files
-COPY defaults/ /defaults/
-COPY init/ /etc/my_init.d/
-COPY services/ /etc/service/
+RUN \
+  apk add --no-cache \
+    openssl \
+    bc \
+    certbot \
+    inotify-tools && \
 
-RUN chmod -v +x /etc/service/*/run && chmod -v +x /etc/my_init.d/*.sh
+  apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main \
+    haproxy && \
 
-# Volumes and Ports
-VOLUME /config
+# cleanup
+  rm -rf /var/cache/apk/* /tmp/*
+
+# copy local files
+COPY root/ /
+
+# ports and volumes
 EXPOSE 80 443
+VOLUME /config
