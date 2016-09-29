@@ -7,8 +7,6 @@ Based on linuxserver.io baseimage but NOT SUPPORTED by them.
 The Reliable, High Performance TCP/HTTP Load Balancer.
 LetsEncrypt support.
 
-[haproxy](http://www.haproxy.org/)
-
 [![haproxy](https://cdn.haproxy.com/static/img/slider1small.png)]
 
 ## Usage
