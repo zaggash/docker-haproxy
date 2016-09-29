@@ -4,7 +4,7 @@ Based on linuxserver.io baseimage but NOT SUPPORTED by them.
 [![](https://images.microbadger.com/badges/image/zaggash/docker-haproxy.svg)](https://microbadger.com/images/zaggash/docker-haproxy "Get your own image badge on microbadger.com")
 [hub]: https://hub.docker.com/r/zaggash/docker-haproxy/
 
-The Reliable, High Performance TCP/HTTP Load Balancer.
+The Reliable, High Performance TCP/HTTP Load Balancer. [haproxy](http://www.haproxy.org/)
 LetsEncrypt support.
 
 [![haproxy](https://cdn.haproxy.com/static/img/slider1small.png)]
@@ -17,7 +17,7 @@ docker create --name=haproxy \
 -e TZ \
 -e PGID=<gid> -e PUID=<uid> \
 -p 19999:19999 \
-zaggash/docker-netdata
+zaggash/docker-haproxy
 ```
 
 **Parameters**
@@ -28,7 +28,7 @@ zaggash/docker-netdata
 * `-e PUID` for UserID - see below for explanation
 * `-e TZ` for timezone information
 
-It is based on alpine linux with s6 overlay, for shell access whilst the container is running do `docker exec -it netdata /bin/bash`.
+It is based on alpine linux with s6 overlay, for shell access whilst the container is running do `docker exec -it haproxy /bin/bash`.
 
 ### User / Group Identifiers
 
@@ -36,9 +36,9 @@ Sometimes when using data volumes (`-v` flags) permissions issues can arise betw
 
 ## Setting up the application 
 
-Webui is on port 19999
+
 
 
 ## Info
 
-* To monitor the logs of the container in realtime `docker logs -f netdata`.
+* To monitor the logs of the container in realtime `docker logs -f haproxy`.
