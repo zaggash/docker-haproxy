@@ -2,6 +2,7 @@ Based on linuxserver.io baseimage but NOT SUPPORTED by them.
 
 # zaggash/docker-haproxy
 [![](https://images.microbadger.com/badges/image/zaggash/docker-haproxy.svg)](https://microbadger.com/images/zaggash/docker-haproxy "Get your own image badge on microbadger.com")
+
 [hub]: https://hub.docker.com/r/zaggash/docker-haproxy/
 
 The Reliable, High Performance TCP/HTTP Load Balancer. [haproxy](http://www.haproxy.org/)
