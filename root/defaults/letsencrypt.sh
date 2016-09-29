@@ -70,7 +70,7 @@ sort_domains_list() {
 	dns_groups="$(echo $domains | sed -r 's/,\s+/\n/g' | sed -r 's/\s+/, /g')"
 	for sameroot in $dns_groups
 	do
-		echo -n $sameroot | xargs -n1 | tr -d ',' | awk '{ print length($0), $0 }' | sort -n | cut -d ' ' -f 2- | xargs | sed 's/ /,/g'
+		echo -n $sameroot | xargs -n1 | tr -d ',' | awk '{ print length($0), $0 }' | sort -n | cut -d ' ' -f 2- | tr '\n' ','
 	done
 }
 
