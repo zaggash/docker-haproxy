@@ -80,7 +80,7 @@ for dns_group in $(sort_domains_list "$DOMAINS")
 do
         MAIN_CERT_NAME="$(echo $dns_group | cut -d ',' -f 1)"
         DNS_LIST="$dns_group"
-        [[ ! -f "$LE_FOLDER/$MAIN_CERT_NAME/fullchain.pem" ]] && echo "[WARN] Certificate file not found for $DNS_LIST." && INITIAL_RENEWAL=true
+        [[ ! -f "$LE_FOLDER/$MAIN_CERT_NAME/$MAIN_CERT_NAME.pem" ]] && echo "[WARN] Certificate file not found for $DNS_LIST." && INITIAL_RENEWAL=true
 
         if [[ $INITIAL_RENEWAL ]]
         then
