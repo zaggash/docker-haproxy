@@ -19,7 +19,7 @@ certificate_needs_update() {
         cert_folder="$1"
         main_cert_name="$2"
         max_days_to_expiration="$3"
-        exp_time=$(date -D "`openssl x509 -in $cert_folder/$main_cert_name/fullchain.pem -text -noout | grep 'Not After' | cut -c 25-`" +%s)
+        exp_time=$(date -D "`openssl x509 -in $cert_folder/$main_cert_name/$main_cert_name.pem -text -noout | grep 'Not After' | cut -c 25-`" +%s)
         now=$(date -D "now" +%s)
         days_to_exp=$(echo \( $exp_time - $now \) / 86400 | bc)
         if [ "$days_to_exp" -gt "$max_days_to_expiration" ]; then
