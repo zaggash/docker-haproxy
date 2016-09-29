@@ -19,7 +19,7 @@ certificate_needs_update() {
 	cert_folder="$1"
 	main_cert_name="$2"
 	max_days_to_expiration="$3"
-	exp_time=$(date -D "`openssl x509 -in $cert_folder/$main_cert_name/fullchain.pem -text -noout | grep 'Not After' | cut -c 25-`" +%s)"
+	exp_time=$(date -D "`openssl x509 -in $cert_folder/$main_cert_name/fullchain.pem -text -noout | grep 'Not After' | cut -c 25-`" +%s)
 	now=$(date -D "now" +%s)
 	days_to_exp=$(echo \( $exp_time - $now \) / 86400 | bc)
 	if [ "$days_to_exp" -gt "$max_days_to_expiration" ]; then
@@ -70,7 +70,7 @@ sort_domains_list() {
 	dns_groups="$(echo $domains | sed -r 's/,\s+/\n/g' | sed -r 's/\s+/, /g')"
 	for sameroot in $dns_groups
 	do
-		echo -n $sameroot | xargs -n1 | tr -d ',' | awk '{ print length($0), $0 }' | sort -n | cut -d ' ' -f 2- | tr '\n' ','
+		echo -n $sameroot | xargs -n1 | tr -d ',' | awk '{ print length($0), $0 }' | sort -n | cut -d ' ' -f 2- | tr '\n' ',' | sed -r 's/,$//g'
 	done
 }
 
