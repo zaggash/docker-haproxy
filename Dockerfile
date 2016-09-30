@@ -6,8 +6,8 @@ ENV EMAIL=""
 
 RUN \
   apk add --no-cache \
+    coreutils \
     openssl \
-    bc \
     certbot \
     inotify-tools && \
 
