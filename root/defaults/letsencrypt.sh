@@ -98,7 +98,7 @@ do
                         create_cert "$DNS_LIST" "$EMAIL" "$LE_PORT" || exit 1
                         combine_cert "$LE_FOLDER" "$MAIN_CERT_NAME"
                         echo "[INFO] Certbot renew finished for $MAIN_CERT_NAME certificates."
-                        [[ $(pidof haproxy) ]] &&  s6-svc -h /var/run/s6/services/haproxy/ || s6-svc -u /var/run/s6/services/haproxy/
+                        [[ $(pidof haproxy) ]] &&  s6-svc -t /var/run/s6/services/haproxy/
                 else
                         echo "The certificate for $DNS_LIST is up to date, no need for renewal ($DAYS days left)."
                 fi
