@@ -85,7 +85,7 @@ do
         if [[ $INITIAL_RENEWAL ]]
         then
                 echo "[INFO] Creating certificate for $DNS_LIST"
-                create_cert "$DNS_LIST" "$EMAIL" "$LE_PORT"
+                create_cert "$DNS_LIST" "$EMAIL" "$LE_PORT" || exit 1
                 combine_cert "$LE_FOLDER" "$MAIN_CERT_NAME"
                 echo "[INFO] CertBot initial process finished for domains $DNS_LIST"
                 echo "[INFO] Setup your SSL frontend with $LE_FOLDER/$MAIN_CERT_NAME/$MAIN_CERT_NAME.pem !"
