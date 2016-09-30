@@ -23,9 +23,9 @@ certificate_needs_update() {
         now=$(date -d "now" +%s)
         let "days_to_exp=$exp_time-$now" && let "days_to_exp=$days_to_exp/86400"
         if [ "$days_to_exp" -gt "$max_days_to_expiration" ]; then
-                return 1
+                echo "$days_to_exp" && return 1
         else
-                echo "$days_to_exp" && return 0
+                return 0
         fi
 }
 
@@ -92,7 +92,7 @@ do
                 echo "********************************************************************"
         else
                 DAYS=$(certificate_needs_update "$LE_FOLDER" "$MAIN_CERT_NAME" "$MAX_DAYS_TO_EXPIRATION")
-                if [ "$?" ]
+                if [[ "$?" -eq 0 ]]
                 then
                         echo "[WARN] The certificate for $DNS_LIST is about to expire soon. Starting Certbot renewal script..."
                         create_cert "$DNS_LIST" "$EMAIL" "$LE_PORT" || exit 1
