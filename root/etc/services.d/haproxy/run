@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv bash
 CONFIG="/config/haproxy.cfg"
 haproxy -f $CONFIG -c
-haproxy -q -f $CONFIG -sf $(pidof haproxy)
+haproxy -f $CONFIG -sf $(pidof haproxy)
