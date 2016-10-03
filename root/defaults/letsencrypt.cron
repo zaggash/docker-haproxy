@@ -7,4 +7,4 @@
 0 5 1 * * run-parts /etc/periodic/monthly
 
 # renew certs
-10 2 * * * /app/letsencrypt.sh >> /config/letsencrypt.log 2>&1
+10 2 * * * /app/letsencrypt.sh >> /config/log/letsencrypt.log 2>&1
