@@ -8,6 +8,7 @@ RUN \
   apk add --no-cache \
     coreutils \
     openssl \
+    logrotate \
     certbot \
     inotify-tools && \
 
