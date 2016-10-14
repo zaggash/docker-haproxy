@@ -7,7 +7,7 @@ DEFAULT_SSL_FOLDER="/config/ssl/default"
 
 # Manage LetsEncrypt folder
 mkdir -p $DEFAULT_SSL_FOLDER
-if [ ! -d /config/ssl/letsencrypt ]; then mkdir -p /etc/letsencrypt && mv /etc/letsencrypt /config/ssl/; else rm -Rf /etc/letsencrypt; fi
+if [ ! -d /config/ssl/letsencrypt ]; then mv /etc/letsencrypt /config/ssl/; else rm -Rf /etc/letsencrypt; fi
 ln -s "/config/ssl/letsencrypt" "/etc/letsencrypt"
 
 # Manage log folder
