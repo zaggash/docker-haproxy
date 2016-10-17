@@ -7,8 +7,5 @@ if [[ $BYPASS ]]; then
 else
   #Copy and exec
   [[ ! -x /app/letsencrypt.sh ]] && { cp /defaults/letsencrypt.sh /app/letsencrypt.sh && chmod +x /app/letsencrypt.sh; }
-  #[[ ! -f /etc/cron.d/letsencrypt ]] && cp /defaults/letsencrypt.cron /etc/cron.d/root
-  
-  exec /app/letsencrypt.sh
-
+    exec /app/letsencrypt.sh
 fi
