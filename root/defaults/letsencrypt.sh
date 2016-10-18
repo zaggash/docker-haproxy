@@ -76,6 +76,8 @@ sort_domains_list() {
 
 ##
 # Scripting
+echo "-----------------------------------"
+echo "[INFO] $(date) Starting Process..."
 for dns_group in $(sort_domains_list "$DOMAINS")
 do
         MAIN_CERT_NAME="$(echo $dns_group | cut -d ',' -f 1)"
@@ -89,7 +91,6 @@ do
                 combine_cert "$LE_FOLDER" "$MAIN_CERT_NAME"
                 echo "[INFO] CertBot initial process finished for domains $DNS_LIST"
                 echo "[INFO] Setup your SSL frontend with $LE_FOLDER/$MAIN_CERT_NAME/$MAIN_CERT_NAME.pem !"
-                echo "********************************************************************"
         else
                 DAYS=$(certificate_needs_update "$LE_FOLDER" "$MAIN_CERT_NAME" "$MAX_DAYS_TO_EXPIRATION")
                 if [[ "$?" -eq 0 ]]
@@ -104,3 +105,4 @@ do
                 fi
         fi
 done
+echo "End of Process."
