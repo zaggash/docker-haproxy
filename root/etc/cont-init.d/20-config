@@ -6,8 +6,8 @@ DEFAULT_SSL_FOLDER="/config/ssl/default"
 [ ! -f /config/haproxy.cfg ] && cp /defaults/$HAPROXY_CONF /config/haproxy.cfg ||  echo "[WARN] Config file already exists."
 
 # Manage LetsEncrypt folder
-mkdir -p $DEFAULT_SSL_FOLDER
-if [ ! -d /config/ssl/letsencrypt ]; then mv /etc/letsencrypt /config/ssl/; else rm -Rf /etc/letsencrypt; fi
+mkdir -p $DEFAULT_SSL_FOLDER /config/ssl/letsencrypt
+rm -Rf /etc/letsencrypt
 ln -s "/config/ssl/letsencrypt" "/etc/letsencrypt"
 
 # Manage log folder
