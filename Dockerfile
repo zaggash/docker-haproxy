@@ -3,6 +3,8 @@ MAINTAINER zaggash
 
 ENV DOMAINS=""
 ENV EMAIL=""
+ENV HAPROXY_VERSION="1.6.6-r1"
+ENV CERTBOT_VERSION="0.7.0-r0"
 
 RUN \
   apk add --no-cache \
@@ -10,9 +12,7 @@ RUN \
     openssl \
     logrotate \
     certbot \
-    inotify-tools && \
-
-  apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/main \
+    inotify-tools \
     haproxy && \
 
 # cleanup
