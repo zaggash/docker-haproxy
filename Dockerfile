@@ -1,5 +1,6 @@
 FROM lsiobase/alpine
-MAINTAINER zaggash
+
+LABEL maintainer "zaggash"
 
 ENV DOMAINS=""
 ENV EMAIL=""
