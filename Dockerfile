@@ -4,8 +4,8 @@ LABEL maintainer "zaggash"
 
 ENV DOMAINS=""
 ENV EMAIL=""
-ENV HAPROXY_VERSION=1.6.6-r1
-ENV CERTBOT_VERSION=0.7.0-r0
+ENV HAPROXY_VERSION=1.6.9-r1
+ENV CERTBOT_VERSION=0.9.3-r0
 
 RUN \
   apk add --no-cache \
